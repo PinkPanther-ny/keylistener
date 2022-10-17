@@ -7,6 +7,8 @@ import win32gui
 import os, sys
 import tkinter as tk
 from PIL import ImageTk, Image
+import winsound
+
 
 def resource_path(relative_path):
     """ Get absolute path to resource, works for dev and for PyInstaller """
@@ -61,6 +63,7 @@ loop = True
 def breakloop():
     global loop, running
     root.wm_attributes("-alpha", 0)
+    winsound.MessageBeep(winsound.MB_ICONHAND)
     loop = False
     running = False
     
@@ -74,6 +77,7 @@ def loop_click():
 def start_click():
     global loop, running
     root.wm_attributes("-alpha", 0.24)
+    winsound.MessageBeep(winsound.MB_OK)
     if not running:
         loop = True
         running = True
