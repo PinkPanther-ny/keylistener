@@ -20,7 +20,8 @@ def resource_path(relative_path):
 
     return os.path.join(base_path, relative_path)
 
-def setClickthrough(hwnd):
+
+def set_click_through(hwnd):
     try:
         styles = win32gui.GetWindowLong(hwnd, win32con.GWL_EXSTYLE)
         styles = win32con.WS_EX_LAYERED | win32con.WS_EX_TRANSPARENT
@@ -29,7 +30,8 @@ def setClickthrough(hwnd):
     except Exception as e:
         print(e)
 
-root= tk.Tk()
+
+root = tk.Tk()
 # Make the root window always on top
 root.wm_attributes("-topmost", True)
 root.wm_attributes("-alpha", 0)
@@ -47,18 +49,20 @@ root.iconphoto(False, ico)
 # Hide the root window drag bar and close button
 # root.overrideredirect(1)
 root.wm_attributes('-fullscreen', 'True')
-  
-canvas1 = tk.Canvas(root, width = 160, height = 80)
+
+canvas1 = tk.Canvas(root, width=160, height=80)
 canvas1.pack()
 canvas1.place(relx=0.9, rely=0.05)
-label1 = tk.Label(root, text=f'Looping click\nctrl+C loop click\nctrl+V break loop\nctrl+Z exit program', fg='blue', font=('helvetica', 12, 'bold'), justify=tk.LEFT)
+label1 = tk.Label(root, text=f'Looping click\nctrl+C loop click\nctrl+V break loop\nctrl+Z exit program', fg='blue',
+                  font=('helvetica', 12, 'bold'), justify=tk.LEFT)
 win_id = canvas1.create_window(70, 35, window=label1)
 
-setClickthrough(canvas1.winfo_id())
-setClickthrough(label1.winfo_id())
+set_click_through(canvas1.winfo_id())
+set_click_through(label1.winfo_id())
 
 running = False
 loop = True
+
 
 def breakloop():
     global loop, running
@@ -66,13 +70,15 @@ def breakloop():
     winsound.MessageBeep(winsound.MB_ICONHAND)
     loop = False
     running = False
-    
+
+
 def loop_click():
     global loop
-    
+
     while loop:
         mouse.click()
         time.sleep(0.05)
+
 
 def start_click():
     global loop, running
@@ -81,10 +87,12 @@ def start_click():
     if not running:
         loop = True
         running = True
-        Thread(target = loop_click).start()
+        Thread(target=loop_click).start()
+
 
 def exit_app():
     os._exit(0)
+
 
 keyboard.add_hotkey('CTRL+C', start_click)
 keyboard.add_hotkey('CTRL+V', breakloop)
